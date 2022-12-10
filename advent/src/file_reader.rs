@@ -28,10 +28,27 @@ pub fn get_lines_separated(path: &str) -> Vec<Vec<String>> {
 
 pub fn get_lines_as_vec(path: &str) -> Vec<String> {
     let f = File::open(path).expect("");
-    let mut file = BufReader::new(f);
+    let file = BufReader::new(f);
     let mut entries = Vec::new();
     for line in file.lines() {
         entries.push(line.unwrap())
+    }
+    entries
+}
+
+pub fn get_as_grouped_pairs(path: &str) -> Vec<Vec<String>> {
+    let f = File::open(path).expect("");
+    let file = BufReader::new(f);
+    let mut entries = Vec::new();
+    let mut i = 1;
+    let mut pair = Vec::new();
+    for line in file.lines() {
+        pair.push(line.unwrap());
+        if i % 2 == 0 {
+            entries.push(pair.clone());
+            pair.clear();
+        }
+        i += 1
     }
     entries
 }
